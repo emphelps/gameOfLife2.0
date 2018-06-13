@@ -8,7 +8,6 @@ import java.util.Random;
 public class Board {
     
     private Cell[][] gameBoard;
-    private Cell[][] gameBoardCopy;
     
     private int rowSize;
     private int colSize;
@@ -53,16 +52,15 @@ public class Board {
             }
         }
         
-        gameBoardCopy = gameBoard;
     }
     
-    public boolean calculateNextStateOfCell(int row, int col)
+    public boolean calculateNextStateOfCell(int row, int col, Cell[][] tempGameBoard)
     {
-        int aliveNeighborCount = calculateAliveNeighborsOfCell(row, col);
+        int aliveNeighborCount = calculateAliveNeighborsOfCell(row, col, tempGameBoard);
         
         boolean tempState = false;
         
-        if (gameBoardCopy[row][col].isAlive()) 
+        if (gameBoard[row][col].isAlive()) 
         {
             switch (aliveNeighborCount) 
             {
@@ -82,7 +80,7 @@ public class Board {
         return tempState;
     }
     
-    private int calculateAliveNeighborsOfCell(int row, int col)
+    private int calculateAliveNeighborsOfCell(int row, int col, Cell[][] tempGameBoard)
     {
         int aliveCount = 0;
         
@@ -96,7 +94,7 @@ public class Board {
                 
                 if(j < 0 || j >= colSize) continue;
                 
-                if(gameBoardCopy[i][j].isAlive())
+                if(gameBoard[i][j].isAlive())
                 {
                     aliveCount++;
                 }
@@ -121,24 +119,47 @@ public class Board {
         return boardContents;
     }
     
-    public void resetGameBoardCopy()
+    public void runGame(double ebolaOutbreakChance)
     {
-        gameBoardCopy = gameBoard;
-    }
-    
-    public void setGameBoardCellState(int row, int col, boolean state)
-    {
-        gameBoard[row][col].setState(state);
-    }
-    
-    public void runGame()
-    {
+        Cell[][] tempGameBoard = new Cell[rowSize][colSize];
+        EbolaOutbreak ebolaOutbreak = new EbolaOutbreak(9);
         for (int i = 0; i < rowSize; i++) 
             {
                 for (int j = 0; j < colSize; j++) 
                 {
-                    gameBoard[i][j].setState(calculateNextStateOfCell(i, j));
+                    tempGameBoard[i][j] = new Cell((calculateNextStateOfCell(i, j, tempGameBoard)), i, j);
                 }
             }
+        
+        gameBoard = tempGameBoard;
+        
+        if(ebolaOutbreak.unexpectedEbolaOutbreak(ebolaOutbreakChance))
+        {
+            System.out.println("in ebola true");
+            Random rand = new Random();
+            int randomRow = rand.nextInt(rowSize);
+            int randomCol = rand.nextInt(colSize);
+            ebolaOutbreak(randomRow, randomCol, ebolaOutbreak.getSize());
+        }
+    }
+    
+    public void ebolaOutbreak(int row, int col, int ebolaSize)
+    {
+        int startIndex = (int)Math.sqrt(ebolaSize)/2;
+        int endIndex = (int)Math.sqrt(ebolaSize) - startIndex;
+        
+        System.out.println("EBOLA OUTBREAK");
+        
+        for(int i = row - startIndex; i < row + endIndex ; i++)
+        {
+            for(int j = col - startIndex; j < col + endIndex; j++)
+            {
+                if(i < 0 || i >= rowSize) continue;
+                
+                if(j < 0 || j >= colSize) continue;
+                
+                gameBoard[i][j].setState(false);
+            }
+        }
     }
 }

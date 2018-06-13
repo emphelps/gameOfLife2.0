@@ -14,20 +14,14 @@ public class GameOfLife20 {
         final int PAUSE_MILLIS = 1000;
     
         int ALIVE_CHANCE = (int)(.3 * (ROW_SIZE * COL_SIZE));
-        //double EBOLA_OUTBREAK_CHANCE = 0.00000007;
+        double EBOLA_OUTBREAK_CHANCE = .3;//0.00000007;
         
-        Board newBoard = new Board(ROW_SIZE, COL_SIZE, ALIVE_CHANCE);
+        Board board = new Board(ROW_SIZE, COL_SIZE, ALIVE_CHANCE);
         
         while(true)
         {
-            newBoard.resetGameBoardCopy();
-//            if(unexpectedEbolaOutbreak(EBOLA_OUTBREAK_CHANCE))
-//            {
-//                
-//            }
-            
-            newBoard.runGame();
-            System.out.println(newBoard);
+            board.runGame(EBOLA_OUTBREAK_CHANCE);
+            System.out.println(board);
             
             try
             {
@@ -39,14 +33,4 @@ public class GameOfLife20 {
             }
         }
     }
-    
-//    public static boolean unexpectedEbolaOutbreak(double ebolaOutBreakChance)
-//    {
-//        boolean outbreak = false;
-//        
-//        Random rand = new Random();
-//        double num = rand.nextDouble();
-//        
-//        return outbreak;
-//    }
 }
