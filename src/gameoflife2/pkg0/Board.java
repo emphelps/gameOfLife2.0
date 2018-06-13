@@ -15,8 +15,6 @@ public class Board {
     
     private int aliveChance;
     
-    private String boardContents;
-    
     public Board(int rowSize, int colSize, int aliveChance)
     {
         this.rowSize = rowSize;
@@ -108,8 +106,9 @@ public class Board {
         return aliveCount;
     }
     
-    private void generateBoardContents()
+    public String toString()
     {
+        String boardContents = "";
         for (int i = 0; i < rowSize; i++) 
         {
             for (int j = 0; j < colSize; j++) 
@@ -118,11 +117,7 @@ public class Board {
             }
             boardContents += "\n";
         }
-    }
-    
-    public String getBoardContents()
-    {
-        generateBoardContents();
+        
         return boardContents;
     }
     
@@ -134,5 +129,16 @@ public class Board {
     public void setGameBoardCellState(int row, int col, boolean state)
     {
         gameBoard[row][col].setState(state);
+    }
+    
+    public void runGame()
+    {
+        for (int i = 0; i < rowSize; i++) 
+            {
+                for (int j = 0; j < colSize; j++) 
+                {
+                    gameBoard[i][j].setState(calculateNextStateOfCell(i, j));
+                }
+            }
     }
 }
