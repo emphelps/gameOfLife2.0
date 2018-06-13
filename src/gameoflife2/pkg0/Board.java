@@ -60,8 +60,78 @@ public class Board {
     
     private boolean calculateNextStateOfCell(int row, int col)
     {
+        int aliveNeighborCount = calculateAliveNeighborsOfCell(row, col);
+        
         boolean tempState = false;
         
+        if (gameBoardCopy[row][col].isAlive()) 
+        {
+            switch (aliveNeighborCount) 
+            {
+                case 2:
+                case 3:
+                    tempState = true;
+                    break;
+            }
+        } 
+        else 
+        {
+            if (aliveNeighborCount == 3) 
+            {
+                tempState = true;
+            }
+        }
         return tempState;
+    }
+    
+    private int calculateAliveNeighborsOfCell(int row, int col)
+    {
+        int aliveCount = 0;
+        
+        for(int i = row - 1; i < row + 2 ; i++)
+        {
+            for(int j = col - 1; j < col + 2 ; j++)
+            {
+                if(row == i && col == j) continue;
+                
+                if(i < 0 || i >= rowSize) continue;
+                
+                if(j < 0 || j >= colSize) continue;
+                
+                if(gameBoardCopy[i][j].isAlive())
+                {
+                    aliveCount++;
+                }
+            }
+        }
+        
+        return aliveCount;
+    }
+    
+    private void generateBoardContents()
+    {
+        for (int i = 0; i < rowSize; i++) 
+        {
+            for (int j = 0; j < colSize; j++) 
+            {
+                boardContents += (gameBoard[i][j].isAlive() ? "*" : " ");
+            }
+            boardContents += "\n";
+        }
+    }
+    
+    public String getBoardContents()
+    {
+        return boardContents;
+    }
+    
+    public void resetGameBoardCopy()
+    {
+        gameBoardCopy = gameBoard;
+    }
+    
+    public void setGameBoardCellState(int row, int col, boolean state)
+    {
+        gameBoard[row][col].setState(state);
     }
 }
