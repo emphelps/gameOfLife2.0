@@ -9,12 +9,12 @@ public class GameOfLife20 {
     
     public static void main(String[] args) 
     {
-        int ROW_SIZE = 20;
-        int COL_SIZE = 20;
+        int ROW_SIZE = 40;
+        int COL_SIZE = 40;
         final int PAUSE_MILLIS = 1000;
     
         int ALIVE_CHANCE = (int)(.3 * (ROW_SIZE * COL_SIZE));
-        double EBOLA_OUTBREAK_CHANCE = .3;//0.00000007;
+        double EBOLA_OUTBREAK_CHANCE = 0.00000007;
         
         Board board = new Board(ROW_SIZE, COL_SIZE, ALIVE_CHANCE);
         

@@ -24,10 +24,7 @@ public class EbolaOutbreak {
     {
         boolean outbreak = false;
         
-        Random rand = new Random();
-        int randomNum = rand.nextInt(3) + 1;
-        double toCompare = 1/randomNum;
-        if(toCompare == ebolaOutbreakChance)
+        if((Math.random()/10000000) < ebolaOutbreakChance)
         {
             outbreak = true;
         }

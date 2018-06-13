@@ -135,7 +135,6 @@ public class Board {
         
         if(ebolaOutbreak.unexpectedEbolaOutbreak(ebolaOutbreakChance))
         {
-            System.out.println("in ebola true");
             Random rand = new Random();
             int randomRow = rand.nextInt(rowSize);
             int randomCol = rand.nextInt(colSize);
@@ -148,7 +147,7 @@ public class Board {
         int startIndex = (int)Math.sqrt(ebolaSize)/2;
         int endIndex = (int)Math.sqrt(ebolaSize) - startIndex;
         
-        System.out.println("EBOLA OUTBREAK");
+        System.out.println("EBOLA OUTBREAK!!");
         
         for(int i = row - startIndex; i < row + endIndex ; i++)
         {
