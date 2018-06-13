@@ -58,7 +58,7 @@ public class Board {
         gameBoardCopy = gameBoard;
     }
     
-    private boolean calculateNextStateOfCell(int row, int col)
+    public boolean calculateNextStateOfCell(int row, int col)
     {
         int aliveNeighborCount = calculateAliveNeighborsOfCell(row, col);
         
@@ -122,6 +122,7 @@ public class Board {
     
     public String getBoardContents()
     {
+        generateBoardContents();
         return boardContents;
     }
     
