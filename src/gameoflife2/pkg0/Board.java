@@ -1,12 +1,6 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package gameoflife2.pkg0;
 
 import java.util.Random;
-
 /**
  *
  * @author emphelps
@@ -16,116 +10,58 @@ public class Board {
     private Cell[][] gameBoard;
     private Cell[][] gameBoardCopy;
     
-    private String boardContents;
-    
-    // might not need to keep track of these ?
     private int rowSize;
     private int colSize;
-    private int ALIVE_CHANCE;
     
-    public Board(int rowSize, int colSize, int ALIVE_CHANCE)
+    private int aliveChance;
+    
+    private String boardContents;
+    
+    public Board(int rowSize, int colSize, int aliveChance)
     {
-        // or we could hardcode rowSize and colSize
         this.rowSize = rowSize;
         this.colSize = colSize;
+        this.aliveChance = aliveChance;
         
-        this.ALIVE_CHANCE = ALIVE_CHANCE;
-        
+        initializeGameBoard();
+    }
+    
+    private void initializeGameBoard()
+    {
         gameBoard = new Cell[rowSize][colSize];
         
-        Random rand = new Random();
-        for (int i = 0; i < ALIVE_CHANCE; i++) 
+        for(int i = 0; i < rowSize; i++)
         {
-            int randomAliveI = rand.nextInt(rowSize);
-            int randomAliveJ = rand.nextInt(colSize);
-
-            if (gameBoard[randomAliveI][randomAliveJ].isState()) 
+            for(int j = 0; j < colSize; j++)
+            {
+                gameBoard[i][j] = new Cell(false, i, j);
+            }
+        }
+        
+        Random rand = new Random();
+        
+        for(int i = 0; i < aliveChance; i++)
+        {
+            int randomAliveRowIndex = rand.nextInt(rowSize);
+            int randomAliveColIndex = rand.nextInt(colSize);
+            
+            if(gameBoard[randomAliveRowIndex][randomAliveColIndex].isAlive())
             {
                 i--;
-            } 
-            else 
+            }
+            else
             {
-                gameBoard[randomAliveI][randomAliveJ].setState(true);
+                gameBoard[randomAliveRowIndex][randomAliveColIndex].setState(true);
             }
         }
         
         gameBoardCopy = gameBoard;
     }
     
-    public Cell[][] getGameBoard() 
+    private boolean calculateNextStateOfCell(int row, int col)
     {
-        return gameBoard;
-    }
-
-    public Cell[][] getGameBoardCopy() 
-    {
-        return gameBoardCopy;
-    }
-    
-    private boolean calculateCellState(int row, int col) 
-    {
-        int aliveNeighborCount = calculateAliveNeighborsOfCell(row, col);
-        
         boolean tempState = false;
-        if (gameBoardCopy[row][col].isState()) 
-        {
-            switch (aliveNeighborCount) 
-            {
-                case 2:
-                case 3:
-                    tempState = true;
-                    break;
-            }
-        } 
-        else 
-        {
-            if (aliveNeighborCount == 3) 
-            {
-                tempState = true;
-            }
-        }
         
         return tempState;
     }
-    
-    private int calculateAliveNeighborsOfCell(int row, int col)
-    {
-        int aliveCount = 0;
-        
-        for(int i = row - 1; i < row + 2 ; i++)
-        {
-            for(int j = col - 1; j < col + 2 ; j++)
-            {
-                if(row == i && col == j) continue;
-                
-                if(i < 0 || i >= rowSize) continue;
-                
-                if(j < 0 || j >= rowSize) continue;
-                
-                if(gameBoardCopy[i][j].isState())
-                {
-                    aliveCount++;
-                }
-            }
-        }
-        
-        return aliveCount;
-    }
-    
-    private void generateBoardContents()
-    {
-        for (int i = 0; i < rowSize; i++) 
-        {
-            for (int j = 0; j < colSize; j++) 
-            {
-                boardContents += (gameBoard[i][j].isState() ? "*" : " ");
-            }
-            boardContents += "\n";
-        }
-    }
-    
-//    private void printBoard()
-//    {
-//        
-//    }
 }

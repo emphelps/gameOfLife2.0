@@ -16,7 +16,7 @@ public class Cell {
         this.location = new Location(row_coordinate, col_coordinate);
     }
 
-    public boolean isState() 
+    public boolean isAlive() 
     {
         return state;
     }
