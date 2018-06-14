@@ -13,12 +13,15 @@ public class Board {
     private int colSize;
     
     private int aliveChance;
+    private boolean stable;
     
     public Board(int rowSize, int colSize, int aliveChance)
     {
         this.rowSize = rowSize;
         this.colSize = colSize;
         this.aliveChance = aliveChance;
+        
+        stable = false;
         
         initializeGameBoard();
     }
@@ -108,6 +111,12 @@ public class Board {
     public String toString()
     {
         String boardContents = "";
+        
+        if(stable)
+        {
+            boardContents += "Stable!! \n";
+        }
+        
         for (int i = 0; i < rowSize; i++) 
         {
             for (int j = 0; j < colSize; j++) 
@@ -120,10 +129,13 @@ public class Board {
         return boardContents;
     }
     
-    public void runGame(double ebolaOutbreakChance)
+    public void runGame(double ebolaOutbreakChance, double stabilityMeasurement)
     {
         Cell[][] tempGameBoard = new Cell[rowSize][colSize];
-        EbolaOutbreak ebolaOutbreak = new EbolaOutbreak(9);
+        EbolaOutbreak ebolaOutbreak = new EbolaOutbreak(100);
+        
+        stable = false;
+        
         for (int i = 0; i < rowSize; i++) 
             {
                 for (int j = 0; j < colSize; j++) 
@@ -136,11 +148,22 @@ public class Board {
         
         if(ebolaOutbreak.unexpectedEbolaOutbreak(ebolaOutbreakChance))
         {
+            int beforeOutbreakAliveCount = checkStability();
+            
             Random rand = new Random();
             int randomRow = rand.nextInt(rowSize);
             int randomCol = rand.nextInt(colSize);
             ebolaOutbreak(randomRow, randomCol, ebolaOutbreak.getSize());
+            
+            int afterOutbreakAliveCount = checkStability();
+            
+            if(afterOutbreakAliveCount >= (beforeOutbreakAliveCount * stabilityMeasurement))
+            {
+                stable = true;
+            }
         }
+        
+        
     }
     
     public void ebolaOutbreak(int row, int col, int ebolaSize)
@@ -161,5 +184,23 @@ public class Board {
                 gameBoard[i][j].setState(false);
             }
         }
+    }
+    
+    private int checkStability()
+    {
+        int aliveCount = 0;
+        
+        for(int i = 0; i < rowSize; i++)
+        {
+            for(int j = 0; j < colSize; j++)
+            {
+                if(gameBoard[i][j].isAlive())
+                {
+                    aliveCount++;
+                }
+            }
+        }
+        
+        return aliveCount;
     }
 }
