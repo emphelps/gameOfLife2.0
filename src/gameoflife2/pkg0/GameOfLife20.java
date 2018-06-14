@@ -14,7 +14,7 @@ public class GameOfLife20 {
         final int PAUSE_MILLIS = 1000;
     
         int ALIVE_CHANCE = (int)(.3 * (ROW_SIZE * COL_SIZE));
-        double EBOLA_OUTBREAK_CHANCE = 0.00000007;
+        double EBOLA_OUTBREAK_CHANCE = 0.2;
         
         Board board = new Board(ROW_SIZE, COL_SIZE, ALIVE_CHANCE);
         

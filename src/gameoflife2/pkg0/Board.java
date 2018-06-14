@@ -54,9 +54,9 @@ public class Board {
         
     }
     
-    public boolean calculateNextStateOfCell(int row, int col, Cell[][] tempGameBoard)
+    public boolean calculateNextStateOfCell(int row, int col)
     {
-        int aliveNeighborCount = calculateAliveNeighborsOfCell(row, col, tempGameBoard);
+        int aliveNeighborCount = calculateAliveNeighborsOfCell(row, col);
         
         boolean tempState = false;
         
@@ -80,7 +80,7 @@ public class Board {
         return tempState;
     }
     
-    private int calculateAliveNeighborsOfCell(int row, int col, Cell[][] tempGameBoard)
+    private int calculateAliveNeighborsOfCell(int row, int col)
     {
         int aliveCount = 0;
         
@@ -127,7 +127,7 @@ public class Board {
             {
                 for (int j = 0; j < colSize; j++) 
                 {
-                    tempGameBoard[i][j] = new Cell((calculateNextStateOfCell(i, j, tempGameBoard)), i, j);
+                    tempGameBoard[i][j] = new Cell((calculateNextStateOfCell(i, j)), i, j);
                 }
             }
         

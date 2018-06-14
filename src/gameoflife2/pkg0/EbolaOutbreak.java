@@ -24,7 +24,7 @@ public class EbolaOutbreak {
     {
         boolean outbreak = false;
         
-        if((Math.random()/10000000) < ebolaOutbreakChance)
+        if(Math.random() < ebolaOutbreakChance)
         {
             outbreak = true;
         }
