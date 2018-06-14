@@ -104,6 +104,7 @@ public class Board {
         return aliveCount;
     }
     
+    @Override
     public String toString()
     {
         String boardContents = "";
